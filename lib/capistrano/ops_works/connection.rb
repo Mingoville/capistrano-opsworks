@@ -17,6 +17,10 @@ module Capistrano
         self
       end
 
+      def update_revision revision
+        @client.update_app(:app_id => fetch(:app_id),  :app_source => { :revision => revision })
+      end
+
       def deploy args={}
         deploy_id = create_deployment(args)
         verify deploy_id
@@ -30,7 +34,9 @@ module Capistrano
       end
 
       def history app_id
-        describe_deployments :app_id => app_id
+        describe_deployments(:app_id => app_id).map {|dd|
+          "#{dd[:completed_at]}\t#{dd[:deployment_id]}\t#{dd[:status].upcase}"
+        }
       end
 
       def verify deploy_id

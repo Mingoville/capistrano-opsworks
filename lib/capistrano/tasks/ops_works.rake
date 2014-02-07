@@ -31,6 +31,14 @@ namespace :opsworks do
     opsworks.deploy(opts)
   end
 
+  task :update_revision do
+    if fetch(:revision)
+      opsworks.update_revision(fetch(:revision))
+      puts "Updated revision to #{fetch(:revision)}"
+    end
+  end
+
+
   task :default do
     puts start_deploy
   end
