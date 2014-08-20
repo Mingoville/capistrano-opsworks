@@ -18,7 +18,15 @@ module Capistrano
       end
 
       def update_revision revision
-        @client.update_app(:app_id => fetch(:app_id),  :app_source => { :revision => revision })
+        update_app(:app_source => { :revision => revision })
+      end
+
+      def update_source_url source_url
+        update_app(:app_source => { :url => source_url.to_s }) 
+      end
+
+      def update_app args={}
+        @client.update_app({:app_id => fetch(:app_id)}.merge(args)) unless args.empty?
       end
 
       def deploy args={}

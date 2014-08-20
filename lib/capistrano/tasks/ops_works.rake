@@ -38,6 +38,12 @@ namespace :opsworks do
     end
   end
 
+  task :update_source_url do
+    if fetch(:source_url)
+      opsworks.update_source_url(fetch(:source_url))
+      puts "Updated source url to #{fetch(:source_url)}"
+    end
+  end
 
   task :default do
     puts start_deploy
